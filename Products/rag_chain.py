@@ -5,10 +5,10 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
-from config import Config
+from Products.config import Config
 
 
-class RAGChainBuidel:
+class RAGChainBuilder:
     def __init__(self,vector_store):
         self.vector_store = vector_store
         self.model = ChatGroq(model=Config.RAG_MODEL, temperature=0.5)
