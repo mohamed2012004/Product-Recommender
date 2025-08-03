@@ -1,20 +1,8 @@
-# LangChain core modules
-langchain==0.3.23
-langchain-core==0.3.52
-
-# Integrations
-langchain-openai==0.3.0
-langchain-huggingface==0.1.0
-langchain-astradb==0.6.0
-
-# AstraDB + Cassandra support
-astrapy==2.0.1
-cassandra-driver==3.28.0
-
-# التبعيات
-tqdm
-pydantic<2
-
+langchain
+transformers
+langchain-huggingface
+langchain-groq
+langchain-community
 datasets
 pypdf
 python-dotenv
