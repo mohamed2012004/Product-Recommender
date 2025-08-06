@@ -29,14 +29,26 @@ class DataIngestor:
         self.vstore = None
 
     def mean_pooling(self, token_embeddings):
-        return token_embeddings.mean(dim=0).numpy()
+        """Mean pooling and L2 normalize the embedding."""
+        pooled = token_embeddings.mean(dim=0).numpy()
+        return pooled / np.linalg.norm(pooled)
 
     def chunk_embeddings(self, text, metadata=None, chunk_size=500):
-        inputs = self.tokenizer(text, return_tensors="pt", truncation=True, return_attention_mask=True)
+        inputs = self.tokenizer(text, return_tensors="pt", truncation=False, return_attention_mask=True)
+        input_ids = inputs["input_ids"].squeeze(0)
+
+        if len(input_ids) > self.tokenizer.model_max_length:
+            print(f"[Warning] Text too long ({len(input_ids)} tokens), skipping or truncating...")
+            input_ids = input_ids[:self.tokenizer.model_max_length]
+            inputs["input_ids"] = input_ids.unsqueeze(0)
+            inputs["attention_mask"] = torch.ones_like(input_ids).unsqueeze(0)
+        else:
+            print(f"[Info] Token length OK: {len(input_ids)} tokens")
+
         with torch.no_grad():
             outputs = self.model(**inputs)
 
-        token_embeddings = outputs.last_hidden_state.squeeze(0)  # [seq_len, hidden_size]
+        token_embeddings = outputs.last_hidden_state.squeeze(0)
         token_ids = inputs["input_ids"].squeeze(0)
 
         chunks = []
@@ -56,6 +68,17 @@ class DataIngestor:
         return chunks
 
     def ingest(self):
+        if os.path.exists(os.path.join(self.folder_path, "index.faiss")):
+            print("Loading existing FAISS index...")
+            self.vstore = FAISS.load_local(
+                folder_path=self.folder_path,
+                embeddings=DummyEmbedding(),
+                index_name="index",
+                  allow_dangerous_deserialization=True
+            )
+            return self.vstore
+
+        print("FAISS index not found. Creating new one...")
 
         print("Loading and converting documents...")
         docs = DataConverter("data/flipkart_product_review.csv").convert()
@@ -82,7 +105,7 @@ class DataIngestor:
             embedding=DummyEmbedding()
         )
 
+        self.vstore.save_local(self.folder_path)
+        print("FAISS index saved to disk ")
 
         return self.vstore
-
-

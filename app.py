@@ -5,6 +5,8 @@ from Products.rag_chain import RAGChainBuilder
 
 from dotenv import load_dotenv
 load_dotenv()
+chat_history = []
+
 
 REQYEST_COUNT=Counter("http_requests_total", "Total HTTP Request")
 
@@ -24,14 +26,21 @@ def create_app():
     
     @app.route("/get", methods=["POST"])
     
+    
     def get_response():
         user_input = request.form["msg"]
         
-        response=rag_chain.invoke(
-            {"input": user_input},
+        response = rag_chain.invoke(
+            {
+                "input": user_input,
+                
+            },
             config={"configurable": {"session_id": "user-session"}}
         )["answer"]
+        
+        
         return response
+
     
     @app.route("/metrics")
     def metrics():
