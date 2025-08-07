@@ -1,14 +1,14 @@
 from flask  import render_template, Flask, request, Response
-from prometheus_client import Counter, generate_latest
+from prometheus_client import Counter, generate_latest,Summary
 from Products.data_ingestion import DataIngestor
 from Products.rag_chain import RAGChainBuilder
 
 from dotenv import load_dotenv
 load_dotenv()
-chat_history = []
 
 
-REQYEST_COUNT=Counter("http_requests_total", "Total HTTP Request")
+REQYEST_COUNT=Counter("http_requests_total", "Total HTTP Request")  
+REQUEST_LATENCY = Summary("http_request_latency_seconds", "Time spent processing request")
 
 def create_app():
     
@@ -25,9 +25,11 @@ def create_app():
         return render_template("index.html")
     
     @app.route("/get", methods=["POST"])
+    @REQUEST_LATENCY.time()
     
     
     def get_response():
+        
         user_input = request.form["msg"]
         
         response = rag_chain.invoke(
