@@ -31,7 +31,7 @@ class RAGChainBuilder:
 
     
     def build_chain(self):
-        retriever= self.vector_store.as_retriever(search_kwargs={"k": 3})
+        retriever= self.vector_store.as_retriever(search_kwargs={"k": 20})
         context_prompt = ChatPromptTemplate.from_messages([
             ("system", "Given the chat history and user question, rewrite it as a standalone question."),
             MessagesPlaceholder(variable_name="chat_history"), 
