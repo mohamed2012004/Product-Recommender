@@ -1,7 +1,3 @@
-Certainly! Here's a clean, well-structured README.md draft based on your input, using markdown best practices and consistent headings (`##`, `###`, etc.) for clarity:
-
----
-
 # Recommender Chatbot
 
 This chatbot is built on a commerce dataset to provide personalized product recommendations. It leverages advanced techniques and is deployed on a scalable cloud environment.
