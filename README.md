@@ -23,6 +23,10 @@ The Recommender Chatbot offers intelligent product suggestions by combining adva
 * Managed on Google Cloud Platform (GCP) using Kubernetes or other orchestration tools via YAML configuration files for scalability and reliability.
 
 ---
+### Demo
+
+[![Demo Video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://drive.google.com/file/d/18oMMnEisr5LNXNvVjrHg7U-xPxzxj9yO/view?usp=sharing)
+
 
 ## Project Structure
 
