@@ -1,4 +1,4 @@
-from Python:3.10-slim
+FROM Python:3.10-slim
 
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
