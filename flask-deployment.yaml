@@ -25,11 +25,11 @@ spec:
               name: llmops-secrets    
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "250m"
+            cpu: 500m       # Request: half a CPU core
+            memory: 512Mi   # Request: 512MB RAM
           limits:
-            memory: "256Mi"
-            cpu: "500m"
+            cpu: 1          # Limit: 1 CPU core
+            memory: 1Gi     # Limit: 1GB RAM
 
 ---
 apiVersion: v1

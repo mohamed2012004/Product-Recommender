@@ -19,12 +19,13 @@ spec:
           ports:
             - containerPort: 3000     
           resources:
+            
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: 500m       # Request: half a CPU core
+              memory: 512Mi   # Request: 512MB RAM
             limits:
-              cpu: "500m"
-              memory: "512Mi"
+              cpu: 1          # Limit: 1 CPU core
+              memory: 1Gi     # Limit: 1GB RAM
 
 ---
 apiVersion: v1
