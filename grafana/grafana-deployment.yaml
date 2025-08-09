@@ -31,6 +31,6 @@ spec:
     app: grafana
   ports:
     - protocol: TCP
-      port: 3000 # port in cluster
-      targetPort: 3000 # port that container is working through it on pod
-      nodePort: 32000 # exposer                
+      port: 3000 
+      targetPort: 3000 
+      nodePort: 32000 
